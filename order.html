@@ -5,65 +5,79 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Chocolate Shop Order</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f8f4f0;
-      color: #333;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      color: #15c5cd;
-    }
-    form {
-      max-width: 700px;
-      margin: auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    label {
-      font-weight: bold;
-      margin-top: 10px;
-      display: block;
-    }
-    input, textarea, button {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    .menu-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 5px 0;
-      padding: 8px;
-      border-bottom: 1px solid #eee;
-    }
-    .menu-item input {
-      width: 60px;
-    }
-    button {
-      background: #15c5cd;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-      margin-top: 15px;
-    }
-    button:hover {
-      background: #15c5cd;
-    }
-    #responseMsg {
-      text-align: center;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-  </style>
-      <link rel="stylesheet" href="style.css">
+  body {
+    font-family: Arial, sans-serif;
+    background: #f8f4f0;
+    color: #333;
+    padding: 20px;
+  }
+
+  h1 {
+    text-align: center;
+    color: #15c5cd;
+  }
+
+  form {
+    max-width: 700px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+    color: #15c5cd;
+  }
+
+  input, textarea, button {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+  .menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0;
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .menu-item input {
+    width: 60px;
+    text-align: center;
+  }
+
+  button {
+    background: #15c5cd;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 15px;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+  }
+
+  button:hover {
+    background: #12a4ab;
+  }
+
+  #responseMsg {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #15c5cd;
+  }
+</style>
+
 </head>
 <body>
       <div class="logo">

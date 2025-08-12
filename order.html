@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chocolate Shop Order</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f4f0;
+      color: #333;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #5a2d0c;
+    }
+    form {
+      max-width: 700px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+    }
+    input, textarea, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 5px 0;
+      padding: 8px;
+      border-bottom: 1px solid #eee;
+    }
+    .menu-item input {
+      width: 60px;
+    }
+    button {
+      background: #5a2d0c;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 15px;
+    }
+    button:hover {
+      background: #7c3f14;
+    }
+    #responseMsg {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Order Your Chocolates</h1>
+<form id="orderForm">
+  <label>Name:</label>
+  <input type="text" name="name" required />
+
+  <label>Phone:</label>
+  <input type="tel" name="phone" required pattern="[0-9]{10}" placeholder="10-digit number" />
+
+  <label>Address:</label>
+  <textarea name="address" required></textarea>
+
+  <label>Special Instructions (optional):</label>
+  <textarea name="instructions"></textarea>
+
+  <h3>Menu</h3>
+  <div class="menu-item"><span>Dark Chocolate Bites</span><input type="number" name="Dark Chocolate Bites" min="0" value="0" /></div>
+  <div class="menu-item"><span>Oat Cookies</span><input type="number" name="Oat Cookies" min="0" value="0" /></div>
+  <div class="menu-item"><span>Heart Shaped Chocolates (Milk, White, Dark)</span><input type="number" name="Heart Shaped Chocolates" min="0" value="0" /></div>
+  <div class="menu-item"><span>Kunafa Bar</span><input type="number" name="Kunafa Bar" min="0" value="0" /></div>
+  <div class="menu-item"><span>Lotus Biscoff Chocolate Bar</span><input type="number" name="Lotus Biscoff Chocolate Bar" min="0" value="0" /></div>
+  <div class="menu-item"><span>Brownies</span><input type="number" name="Brownies" min="0" value="0" /></div>
+  <div class="menu-item"><span>Donuts</span><input type="number" name="Donuts" min="0" value="0" /></div>
+  <div class="menu-item"><span>Chocolate Lollipops</span><input type="number" name="Chocolate Lollipops" min="0" value="0" /></div>
+  <div class="menu-item"><span>Handcrafted Chocolates</span><input type="number" name="Handcrafted Chocolates" min="0" value="0" /></div>
+  <div class="menu-item"><span>Marshmallow Chocolate Bar</span><input type="number" name="Marshmallow Chocolate Bar" min="0" value="0" /></div>
+  <div class="menu-item"><span>Love You Chocolate</span><input type="number" name="Love You Chocolate" min="0" value="0" /></div>
+  <div class="menu-item"><span>Marble Chocolate</span><input type="number" name="Marble Chocolate" min="0" value="0" /></div>
+
+  <button type="submit">Place Order</button>
+</form>
+
+<p id="responseMsg"></p>
+
+<script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbxAb_psAL3hBApihZwlaBfORXThteDrzn1CwBO0jxj1yZuguh-vf6zUmwibNAhVi3Rm/exec'; // <-- Replace this with your Google Apps Script Web App URL
+  const form = document.getElementById('orderForm');
+  const responseMsg = document.getElementById('responseMsg');
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+
+    // Build items array with quantities > 0
+    const items = [];
+    for (const [key, value] of formData.entries()) {
+      if (
+        key !== 'name' &&
+        key !== 'phone' &&
+        key !== 'address' &&
+        key !== 'instructions'
+      ) {
+        const qty = Number(value);
+        if (qty > 0) {
+          items.push({ item: key, quantity: qty });
+        }
+      }
+    }
+
+    if (items.length === 0) {
+      responseMsg.textContent = 'Please order at least one item.';
+      responseMsg.style.color = 'red';
+      return;
+    }
+
+    const data = {
+      name: formData.get('name'),
+      phone: formData.get('phone'),
+      address: formData.get('address'),
+      instructions: formData.get('instructions'),
+      items: items
+    };
+
+    fetch(scriptURL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+      if (result.status === 'success') {
+        responseMsg.textContent = 'Order placed successfully!';
+        responseMsg.style.color = 'green';
+        form.reset();
+      } else {
+        responseMsg.textContent = 'Error: ' + result.message;
+        responseMsg.style.color = 'red';
+      }
+    })
+    .catch(error => {
+      responseMsg.textContent = 'Error sending order: ' + error.message;
+      responseMsg.style.color = 'red';
+    });
+  });
+</script>
+
+</body>
+</html>
